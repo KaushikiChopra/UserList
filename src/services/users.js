@@ -97,16 +97,16 @@ const userHomePage = async (req,token) => {
 const userLogout = async (req,res,token) => {
 let find = await User.findOne({where : {token:token}});
 const authHeader = req.headers["authorization"];
+let loggedOut
 jwt.sign(authHeader, "", { expiresIn: 1 } , (logout, err) => {
 if (logout) {
-find.token = ""
-find.save()
+loggedOut = true
 res.send({msg : 'You have been Logged Out' });
 } else {
 res.send({msg:'Error'});
 }
 });
-if(find.token == "")
+if(loggedOut)
 return {message :'You have been Logged Out' }
 }
 
