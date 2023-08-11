@@ -20,7 +20,7 @@ router.post('/homepage', validateToken.validateToken, userController.userHome)
 
 
 // User logout Api
-router.put('/logout', userController.userlogout)
+router.put('/logout', validateToken.validateToken,userController.userlogout)
 
 
 // image route

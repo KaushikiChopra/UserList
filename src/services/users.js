@@ -68,22 +68,17 @@ const loginUser = async (attributes) => {
   let {
     userName,
     password,
-
   } = attributes
   let find = await User.findOne({ where : {userName: userName, password: password}});
   if(find.password == password && find.userName  == userName) {
     jwt.sign(find.id, 'secret_key' , (err,token) => {
-      if(err){
-      res.status(400).send({msg : 'Error'})
-      }
-      else{
-      find.token = token;
-      find.save()
-      res.status(200).json({token : token})
+      if(token){
+        find.token = token;
+        find.save()
       }
     })
 }
-return find.token;
+if(find.token != "") return find.token;
 }
 
 
@@ -97,16 +92,14 @@ const userHomePage = async (req,token) => {
 const userLogout = async (req,res,token) => {
 let find = await User.findOne({where : {token:token}});
 const authHeader = req.headers["authorization"];
-let loggedOut
+
 jwt.sign(authHeader, "", { expiresIn: 1 } , (logout, err) => {
 if (logout) {
-loggedOut = true
-res.send({msg : 'You have been Logged Out' });
-} else {
-res.send({msg:'Error'});
+find.token = "";
+find.save()
 }
 });
-if(loggedOut)
+if(find.token == "")
 return {message :'You have been Logged Out' }
 }
 

@@ -61,11 +61,12 @@ const getUserById = async (req, res) => {
 const loginUser = async (req, res) => {
   try {
     const { body: attributes} = req
-    let user = await userService.loginUser(attributes)
-    if (!user) {
+    let users = await userService.loginUser(attributes)
+    if (!users) {
+      
       res.status(404).json({ error: 'User not found' });
     } else {
-      res.json({status: true,data: user});
+      res.json({status: true,data: users});
     }
   } catch (error) {
     res.status(500).json({ error: 'Failed to retrieve user' });
