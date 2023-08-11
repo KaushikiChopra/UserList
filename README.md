@@ -10,5 +10,5 @@ To run Backend
 
 To run frontend
 1) run npm i for installation of node modules.
-2) npm start
+2) npm start.
 
