@@ -1,7 +1,7 @@
 
 const User = require('../../models/user');
 const { use } = require('../routes/route');
-const {validateToken} = require("./middleware/jwtVerify");
+const {validateToken} = require("./../validator/jwtverify");
 const jwt = require("jsonwebtoken");
 const { v4 } = require('uuid')
 
@@ -72,12 +72,42 @@ const loginUser = async (attributes) => {
   } = attributes
   let find = await User.findOne({ where : {userName: userName, password: password}});
   if(find.password == password && find.userName  == userName) {
-    const accessToken = generateAccessToken({ userName: userName });
-    const refreshToken = generateRefreshToken ({userName: userName})
-    res.status(200).json({ accessToken: accessToken, refreshToken: refreshToken });
-  } else {
-    res.status(403).json({ Error: 'Incorrect password' });
-  }
+    jwt.sign(find.id, 'secret_key' , (err,token) => {
+      if(err){
+      res.status(400).send({msg : 'Error'})
+      }
+      else{
+      find.token = token;
+      find.save()
+      res.status(200).json({token : token})
+      }
+    })
+}
+return find.token;
+}
+
+
+//userHomepage 
+const userHomePage = async (req,token) => {
+  return await User.findOne({where : {token:token}});
+};
+
+
+// userLogout
+const userLogout = async (req,res,token) => {
+let find = await User.findOne({where : {token:token}});
+const authHeader = req.headers["authorization"];
+jwt.sign(authHeader, "", { expiresIn: 1 } , (logout, err) => {
+if (logout) {
+find.token = ""
+find.save()
+res.send({msg : 'You have been Logged Out' });
+} else {
+res.send({msg:'Error'});
+}
+});
+if(find.token == "")
+return {message :'You have been Logged Out' }
 }
 
   
@@ -85,4 +115,4 @@ const loginUser = async (attributes) => {
 
 
 
-module.exports = { getAllUser, createUser, getUserById, updateUser, deleteUser, loginUser }
+module.exports = { getAllUser, createUser, getUserById, updateUser, deleteUser, loginUser, userHomePage, userLogout }

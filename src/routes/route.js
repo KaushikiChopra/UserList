@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router();
 const userController = require('../controllers/users')
 const userImageController = require('../controllers/userImage')
+const validateToken = require('../validator/jwtverify')
 
 // signup routes
 router.post('/user', userController.createUser)
@@ -15,8 +16,11 @@ router.post('/login', userController.loginUser)
 
 
 //homepage routes
-router.get('/user/:userId', userController.getUserById)
+router.post('/homepage', validateToken.validateToken, userController.userHome)
 
+
+// User logout Api
+router.put('/logout', userController.userlogout)
 
 
 // image route

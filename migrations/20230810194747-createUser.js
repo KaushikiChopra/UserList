@@ -44,6 +44,13 @@ module.exports = {
           type: Sequelize.STRING,
           allowNull: true,
         },
+
+        token: {
+          type: Sequelize.STRING,
+          allowNull: false,
+        },
+
+        
       
         // createdAt, updatedAt and deletedAt managed by Sequelize
         createdAt: {

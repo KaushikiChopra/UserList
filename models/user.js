@@ -25,6 +25,9 @@ const User = sequelizeInstance.define('userDetails', {
   },
   phoneNumber: {
     type: DataTypes.STRING,
+  },
+  token: {
+    type : DataTypes.STRING,
   }
 
 }, {

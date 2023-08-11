@@ -72,12 +72,13 @@ const loginUser = async (req, res) => {
   }
 };
 
-// User's homepage
+//User's homepage
 
 const userHome = async (req, res) => {
   try {
-    const { body: attributes} = req
-    let user = await userService.loginUser(attributes)
+    const authHeader = req.headers["authorization"];
+    const token = authHeader && authHeader.split(" ")[1];
+    let user = await userService.userHomePage(req,token)
     if (!user) {
       res.status(404).json({ error: 'User not found' });
     } else {
@@ -88,7 +89,26 @@ const userHome = async (req, res) => {
   }
 };
 
+//userlogout 
+const userlogout = async (req, res) => {
+  try {
+    const authHeader = req.headers["authorization"];
+    const token = authHeader && authHeader.split(" ")[1];
+    let user = await userService. userLogout(req,res,token)
+    if (!user) {
+      res.status(404).json({ error: 'Cannot logout' });
+    } else {
+      res.json({status: true,data: user});
+    }
+  } catch (error) {
+    console.log("errr",error)
+
+    res.status(500).json({ error: error });
+  }
+};
+
+
 
 
  
-module.exports = {getAllUser, createUser, getUserById, updateUser, deleteUser, loginUser}
+module.exports = {getAllUser, createUser, getUserById, updateUser, deleteUser, loginUser, userHome, userlogout}
