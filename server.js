@@ -3,12 +3,15 @@ const psql = require('./config/db')
 const express = require("express");
 const userRoutes = require('./src/routes/route');
 const bodyParser = require('body-parser');
+const fileUpload = require('express-fileupload');
+
 var cors = require('cors');
 const app = express();
 //create a server object:
 http.createServer(function (req, res) {
 })
-    
+app.use(fileUpload());
+
 app.use(express.json());
 app.use(cors({
   origin: '*',

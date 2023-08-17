@@ -16,7 +16,7 @@ router.post('/login', userController.loginUser)
 
 
 //homepage routes
-router.post('/homepage', validateToken.validateToken, userController.userHome)
+router.get('/homepage', validateToken.validateToken, userController.userHome)
 
 
 // User logout Api
@@ -25,7 +25,7 @@ router.put('/logout', validateToken.validateToken,userController.userlogout)
 
 // image route
 router.post('/user/:userId/uploadImage', userImageController.createImage)
-router.get('/user/:userId/uploadImage', userImageController.createImage)
+router.get('/user/:userId/uploadImage', userImageController.getUserImage)
 
 
 module.exports = router;

@@ -50,6 +50,12 @@ module.exports = {
           allowNull: false,
         },
 
+        role: {
+          type : Sequelize.STRING,
+          allowNull: false,
+
+        },
+
         
       
         // createdAt, updatedAt and deletedAt managed by Sequelize

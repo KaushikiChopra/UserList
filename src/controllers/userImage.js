@@ -2,7 +2,7 @@ const userImage = require('../services/userImage')
 
 
 const createImage = async (req,res) =>{
- const { params: { userId} , file, body: { mimeType } } = req
+ const { params: {userId}, body:{ mimeType }, files: {file} } = req
    let creates = await userImage.createImage(file, mimeType,userId)
    res.status(200).json({status: 'OK', message: 'image uploaded!!!',data: creates});
 }

@@ -28,7 +28,11 @@ const User = sequelizeInstance.define('userDetails', {
   },
   token: {
     type : DataTypes.STRING,
-  }
+  },
+  role: {
+    type: DataTypes.STRING,
+
+  },
 
 }, {
   // Other model options go here

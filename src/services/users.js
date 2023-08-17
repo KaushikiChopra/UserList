@@ -1,5 +1,6 @@
 
 const User = require('../../models/user');
+const Image = require('../../models/userImages');
 const { use } = require('../routes/route');
 const {validateToken} = require("./../validator/jwtverify");
 const jwt = require("jsonwebtoken");
@@ -18,13 +19,24 @@ const createUser = async (attributes) => {
     password,
     phoneNumber,
     city,
-    qualification
+    qualification,
+    role
 
   } = attributes
+  let upperRole = role.toUpperCase()
   let existUser = await User.findAll({where: {userName : userName, password: password}})
-  if(!existUser)  {
-  return await User.create({ id, userName, password, phoneNumber, city, qualification});
-  }
+  if(existUser.length == 0){
+  //   if(upperRole == "ADMIN"){
+  //     let existRole = await User.findAll({where: {role : role }})
+  //     console.log("dddddddddddddddddddddddddd",existRole)
+  //     for(let i=0; i<existRole.length; i++){
+  //       if(existRole.userDetails[i].role.toUpperCase() == "ADMIN" ) return "Admin Role already exist"
+  //     }
+      
+  // }
+  let created  = await User.create({ id, userName, password, phoneNumber, city, qualification, role});
+  return created
+}
 };
 
 const getAllUser = async () => {
@@ -87,7 +99,26 @@ if(find.token != "") return find.token;
 
 //userHomepage 
 const userHomePage = async (req,token) => {
-  return await User.findOne({where : {token:token}});
+  let data = await User.findOne({where : {token:token}});
+  const projects = await Image.findAll({
+  })
+  for(let i=0; i<projects.length;i++){
+   let projectData = projects[i].imageData.toString('base64')
+   projects[i].imageData = projectData
+  }
+  if(data){
+    return {
+      id : data.id,
+      userName:data.userName,
+    qualification : data.qualification,
+    city : data.city,
+    phoneNumber: data.phoneNumber,
+    role: role,
+    projects
+
+   }
+}
+
 };
 
 
