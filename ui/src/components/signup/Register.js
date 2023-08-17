@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 const Register = () => {
     const [userName, setUserName] = useState("");
     const [password, setPassword] = useState("");
+    const [role, setRole] = useState("");
     const [qualification, setQualification] = useState("");
     const [city, setCity] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
@@ -17,6 +18,9 @@ const Register = () => {
     }
     const onPasswordChange = (event) => {
         setPassword(event.target.value)
+    }
+    const onRoleChange = (event) => {
+        setRole(event.target.value)
     }
     const onCityChange = (event) => {
         setCity(event.target.value)
@@ -39,13 +43,14 @@ const Register = () => {
         const data = {
             userName:userName,
             password:password,
+            role: role,
             qualification:qualification,
-            city:city,
+            city:city,  
             phoneNumber:phoneNumber
         }
         await fetch("http://localhost:3000/api/v1/user", {
             method: 'POST',
-            header: {
+            headers: {
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*',
             },
@@ -61,6 +66,9 @@ const Register = () => {
                 </div>
                 <div className="input-field">
                     <input type="password" placeholder="Password" onChange={onPasswordChange} />
+                </div>
+                <div className="input-field">
+                    <input type="role" placeholder="Role" onChange={onRoleChange} />
                 </div>
                 <div className="input-field">
                     <input type="qualification" placeholder="Qualification" onChange={onQualificationChange} />
