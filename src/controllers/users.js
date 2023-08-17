@@ -10,7 +10,8 @@ const getAllUser = async (req,res) =>{
 const createUser = async (req,res) =>{
   const { body: attributes} = req
    let creates = await userService.createUser(attributes)
-   res.status(200).json({status: 'OK', message: 'user Created!!!',data: creates});
+   if(creates){res.status(200).json({status: 'OK', message: 'user Created!!!',data: creates})}
+   else{res.status(409).json({ message: 'User Already Exist'})}
 }
 
 const getUserById = async (req, res) => {
@@ -66,7 +67,7 @@ const loginUser = async (req, res) => {
       
       res.status(404).json({ error: 'User not found' });
     } else {
-      res.json({status: true,data: users});
+      res.status(200).json({status: true,data: users});
     }
   } catch (error) {
     res.status(500).json({ error: 'Failed to retrieve user' });
@@ -83,7 +84,7 @@ const userHome = async (req, res) => {
     if (!user) {
       res.status(404).json({ error: 'User not found' });
     } else {
-      res.json({status: true,data: user});
+      res.status(200).json({status: true,data: user});
     }
   } catch (error) {
     res.status(500).json({ error: 'Failed to retrieve user' });

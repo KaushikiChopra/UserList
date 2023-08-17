@@ -21,7 +21,10 @@ const createUser = async (attributes) => {
     qualification
 
   } = attributes
+  let existUser = await User.findAll({where: {userName : userName, password: password}})
+  if(!existUser)  {
   return await User.create({ id, userName, password, phoneNumber, city, qualification});
+  }
 };
 
 const getAllUser = async () => {
