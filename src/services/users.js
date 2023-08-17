@@ -102,21 +102,24 @@ const userHomePage = async (req,token) => {
   let data = await User.findOne({where : {token:token}});
   const projects = await Image.findAll({
   })
+  if(projects.length > 0){
   for(let i=0; i<projects.length;i++){
    let projectData = projects[i].imageData.toString('base64')
    projects[i].imageData = projectData
   }
+}
   if(data){
-    return {
+    let newBody = {
       id : data.id,
       userName:data.userName,
-    qualification : data.qualification,
-    city : data.city,
-    phoneNumber: data.phoneNumber,
-    role: role,
-    projects
+      qualification : data.qualification,
+      city : data.city,
+      phoneNumber: data.phoneNumber,
+      role: data.role,
+      images : projects
 
    }
+    return newBody
 }
 
 };

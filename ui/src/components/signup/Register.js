@@ -48,7 +48,7 @@ const Register = () => {
             city:city,  
             phoneNumber:phoneNumber
         }
-        await fetch("http://localhost:3000/api/v1/user", {
+        await fetch("http://localhost:3000/user", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

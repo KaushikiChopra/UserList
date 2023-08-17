@@ -32,7 +32,7 @@ const Home = () => {
 
     const logout = async() => {
         try {
-            const response = await fetch("http://localhost:3000/api/v1/logout", {
+            const response = await fetch("http://localhost:3000/logout", {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -51,7 +51,7 @@ const Home = () => {
 
     const getUserDetails = async () => {
         try {
-            const response = await fetch("http://localhost:3000/api/v1/homepage", {
+            const response = await fetch("http://localhost:3000/homepage", {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
